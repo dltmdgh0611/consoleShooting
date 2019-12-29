@@ -2,7 +2,8 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
-
+#include <vector>
+#include <thread>
 using namespace std;
 
 #define UP 0x48
@@ -13,6 +14,10 @@ using namespace std;
 #define key_X true
 #define key_Y false
 
+static int player_x, player_y;
+void gotoxy(int x, int y);
+
+
 class Player
 {
 
@@ -21,7 +26,7 @@ class Player
 
 public:
 	int shootingcount = 0;
-	int player_x, player_y;
+	
 	bool bootflag;
 	Player(char ch);
 	~Player();
@@ -32,9 +37,8 @@ public:
 
 	void playerinit();
 
-	void shooting(int i, int fx);
 
-	void gotoxy(int x, int y);
+	
 
 	bool key_input();
 
@@ -62,3 +66,16 @@ public:
 private:
 
 };
+
+class bullet
+{
+public:
+	thread t2;
+	void shooting(int x, int shot_y);
+	void shootrun(int fplayer_x);
+	bullet();
+	~bullet();
+private:
+
+};
+

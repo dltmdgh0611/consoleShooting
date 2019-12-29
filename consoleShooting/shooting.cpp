@@ -1,7 +1,7 @@
 #include "shooting.h"
 
 
-Player::Player(char ch) : player_x(0), player_y(0) {
+Player::Player(char ch)  {
 	key_value = ch;
 }
 
@@ -62,29 +62,38 @@ bool Player::key_input() {
 	return false;
 }
 
-void Player::gotoxy(int x, int y) {
+void gotoxy(int x, int y) {
 	COORD Cursor;
 	Cursor.X = x;
 	Cursor.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cursor);
 }
 
-void Player::shooting(int i, int fx) {
-	if (i < 45) {
-		gotoxy(fx + 1, player_y - i - 4);
-		cout << "o";
-		gotoxy(fx + 1, player_y - i - 3);
-		cout << " ";
-		gotoxy(fx + 1, player_y - i - 2);
-		cout << " ";
-	}
-	else {
-		gotoxy(fx + 1, player_y - i - 3);
-		cout << " ";
-	}
 
+Player::~Player() {}
+
+
+bullet::bullet() {
+	
+	int fplayer_x = player_x;
+	t2([&](int fplayer_x) {
+		for (int i = 0; i < 45; i++) {
+			shooting(fplayer_x+1, i+1);
+			
+		}
+	}, fplayer_x);
+	gotoxy(player_x, player_y - 1);
 
 
 }
 
-Player::~Player() {}
+void bullet::shooting(int x, int shot_y) {
+	gotoxy(x, player_y - shot_y + 1);
+	cout << " ";
+	gotoxy(x, player_y - shot_y);
+	cout << "o";
+	if (shot_y == 44) {
+		delete t2;
+	}
+}
+
